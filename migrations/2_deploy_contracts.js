@@ -1,6 +1,6 @@
 var ProposalRegistry = artifacts.require("./ProposalRegistry.sol");
 var UserRegistry = artifacts.require("./UserRegistry.sol");
-var Concept = artifacts.require("./Concept.sol");
+var Concept = artifacts.require("./Proposal.sol");
 
 module.exports = function(deployer) {
     deployer.then(function(){
