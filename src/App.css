@@ -1,0 +1,105 @@
+/* PAGE */
+
+body,
+.pure-g [class*=pure-u] {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+pre {
+  display: block;
+  margin: 20px 0 15px 0;
+  padding: 10px;
+  background: #eee;
+}
+
+.container {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.BillboardPanel {
+  display: table;
+  width: 100%;
+  height: 667px;
+  padding-top: 84px;
+  text-align: center;
+  color: #fff;
+  background: url('img/mesh.jpg');
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.BillboardPanel--content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 30px;
+}
+
+.BillboardPanel--title {
+  font: 900 90px/1.2 'Arial';
+  display: flex;
+  align-items: center;
+  flex-grow: 2;
+  color: lightblue;
+  padding-top: 60px;
+}
+
+.BillboardPanel--subtitle {
+  font: 500 36px/1.2 'Arial';
+  flex-grow: 1;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
+  padding-top: 20px;
+}
+
+.pure-button-primary {
+  background-color: #0c1a2b;
+}
+
+.pure-button-primary:hover {
+  background-color: #233e5e;
+}
+
+.pure-form input[type="text"]:focus {
+  border-color: #0c1a2b;
+}
+
+/* NAVBAR */
+
+.navbar {
+  position: fixed;
+  padding: 5px;
+  background: #0c1a2b;
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+.navbar a {
+  color: #fff;
+}
+
+.navbar a:active,
+.navbar a:focus,
+.navbar a:hover {
+  background: #233e5e;
+}
+
+.navbar .pure-menu-heading {
+  font-weight: bold;
+  text-transform: none;
+}
+
+.navbar .navbar-right {
+  float: right;
+}
+
+.navbar .uport-logo {
+  height: 16px;
+  margin-right: 10px;
+}

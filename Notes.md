@@ -28,3 +28,13 @@ They are open because everyone has the right to know how they are built.  They a
 neutral because:  
 a)  Any available technical solution may be used to extend the network;  
 b)  The network can be used to transmit data of any kind by any participant, for any purpose. (10)  
+
+## 2.1 Principles
+
+**Non-discriminatory and open access**  
+**Open participation**
+
+## 2.2 Network Infrastructures as Common Pool Resources
+> According to Ostrom, a CPR typically consists of a core resource that provides a limited quantity of extractable fringe units.  In our case, the core resource is the network, which is nurtured by the network segments the participants deploy to reach the network or to improve it.  The fringe unit is the connectivity participants obtain. Resilient CPRs require effective governance institutions to keep a long-term direction and deal with the struggle to handle many actors and changes in a complex system.  The long-term direction is defined as sustainability in remaining productive or operational under the fundamental principles of the CPR, and the short-term goal is defined as adaptability in reacting and adapting to change. (13)
+
+Ethereum also fits this definition of Common Pool Resources. Tools like Boardroom could address the governance needs of a mesh network. Could mesh networking solve any of Ethereum's sustainability / adaptability / inclusivity issues? 
