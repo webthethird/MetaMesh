@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Grid, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router'
 
+import { HiddenOnlyAuth, VisibleOnlyAuth } from '../.././util/wrappers.js'
+
+import LoginButtonContainer from '../.././user/ui/loginbutton/LoginButtonContainer'
+import LogoutButtonContainer from '../.././user/ui/logoutbutton/LogoutButtonContainer'
+
 class DashboardLeftNav extends Component {
   constructor(props, { authData }) {
     super(props)
@@ -9,14 +14,37 @@ class DashboardLeftNav extends Component {
   }
 
   render() {
+    const OnlyAuthLinks = VisibleOnlyAuth(() =>
+      <span>
+        <li className="pure-menu-item">
+          <Link to="/dashboard" className="pure-menu-link">Dashboard</Link>
+        </li>
+        <li className="pure-menu-item">
+          <Link to="/profile" className="pure-menu-link">Profile</Link>
+        </li>
+        <LogoutButtonContainer />
+      </span>
+    )
+
+    const OnlyGuestLinks = HiddenOnlyAuth(() =>
+      <span>
+        <LoginButtonContainer />
+      </span>
+    )
     return(
 
 
     <div className="">
       <br />
       <div className="logo">
-        
+
         <Link to="/" className="logo"><img className="logo" width="100px" height="100px" src="https://nycmesh.net/assets/images/logo.png" /></Link> <br /><br />
+      </div>
+      <div>
+        <ul>
+          <OnlyGuestLinks />
+          <OnlyAuthLinks />
+        </ul>
       </div>
       <div> the mesh network currently has </div>
       <div> 352,000 </div>
@@ -29,7 +57,7 @@ class DashboardLeftNav extends Component {
       <div> 3 commits </div> <br /> <br />
       <div> more account information <br /><br /></div>
       <div> <Link to="/" className="btn btn-default">I want to donate to the mesh</Link> </div>
-      
+
     </div>
 
 

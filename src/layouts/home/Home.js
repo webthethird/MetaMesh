@@ -8,7 +8,7 @@ class Home extends Component {
     content: PropTypes.object.isRequired
   };
   render() {
-    var subtitle = "metamesh metamesh metamesh metamesh metamesh";
+    var subtitle = "Internet is a human right. Community mesh networks aim to provide a public stand alone Wi-Fi network that is accessible to all people by installing and maintaining router nodes that share Internet peer-to-peer. However, many meshes are limited by ad-hoc, informal governance.\nMetaMesh is a governance network that aims incentivize growth of mesh networks as a community-owned resource. MetaMesh organizes workforce and funding to optimize our limited resources for the betterment of the network without compromising community run governance. We empower the will of workers over that of the donors by shifting power from those with money to those who give their time and work to the community. Those workers who dedicate their time to MetaMesh projects are given the power and the credentials to influence which projects are taken on by the mesh. ";
     return(
       <main className="container">
         <div className="BillboardPanel">
@@ -17,7 +17,7 @@ class Home extends Component {
                   MetaMesh
               </div>
               <div className="BillboardPanel--subtitle">
-                  {subtitle}
+                  {subtitle.split('/n')}
               </div>
           </div>
         </div>
