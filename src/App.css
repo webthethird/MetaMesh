@@ -9,6 +9,10 @@ h1, h2, h3 {
   font-family: 'Ubuntu', 'Arial Narrow', sans-serif;
 }
 
+h1 {
+  font-size: 3em;
+}
+
 pre {
   display: block;
   margin: 20px 0 15px 0;
@@ -90,9 +94,14 @@ pre {
   background: #233e5e;
 }
 
-.navbar .pure-menu-heading {
+.pure-menu-heading {
   font-weight: bold;
   text-transform: none;
+}
+
+.pure-menu-link {
+  text-align: center;
+  float: right;
 }
 
 .navbar .navbar-right {
@@ -101,7 +110,7 @@ pre {
 
 .uport-logo {
   height: 16px;
-  margin-right: 10px;
+  margin: 10px;
 }
 
 .left-nav  {
@@ -120,6 +129,18 @@ pre {
 
 .logo2 {
     left: 120px;
+}
+
+.logo {
+    display: inline;
+}
+
+.logo img {
+    float: left;
+}
+
+.logo h1 {
+    padding-left: 10px;
 }
 
 img.center {

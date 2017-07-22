@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { Grid, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router'
+import DashboardLeftNav from './DashboardLeftNav'
 
 class Dashboard extends Component {
   constructor(props, { authData }) {
@@ -7,15 +10,28 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.props.authData);
+
     return(
-      <main className="container">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-            <h1>Dashboard</h1>
-            <p><strong>Congratulations {this.props.authData.name}!</strong> If you're seeing this page, you've logged in with UPort successfully.</p>
-          </div>
-        </div>
-      </main>
+
+
+
+
+<div className="container-fluid">
+  <div className="row">
+    <div className="col-sm-3 left-nav">
+      <DashboardLeftNav />
+    </div>
+    <div className="col-sm-9">
+      <h2> Dashboard </h2>
+    </div>
+  </div>
+</div>
+
+
+
+
+
     )
   }
 }

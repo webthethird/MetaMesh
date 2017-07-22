@@ -39,11 +39,12 @@ class DashboardLeftNav extends Component {
     <div className="">
       <br />
       <div className="logo">
-
-        <Link to="/" className="logo"><img className="logo" width="100px" height="100px" src={Logo} alt="MetaMesh Logo" /></Link> <br /><br />
+        <Link to="/" className="logo"><img className="logo" width="80px" height="80px" src={Logo} alt="MetaMesh Logo" /></Link>
+        <h1>MetaMesh</h1>
+        <br /><br />
       </div>
       <div>
-        <ul>
+        <ul className="pure-menu-list">
           <OnlyGuestLinks />
           <OnlyAuthLinks />
         </ul>
