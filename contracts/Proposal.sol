@@ -49,7 +49,7 @@ contract Proposal {
         onlyInStage(State.Proposed) { //what to return? bool? or fire an event?
 
         //if the contribution is >0 and can be subtracted from the account
-        if ( amount > 0 &&
+        if (amount > 0 &&
              UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, amount)) {
             //if this is the first time, add to the list of supporters
             if (votes[msg.sender] == 0) {
@@ -64,7 +64,7 @@ contract Proposal {
     }
 
     function checkReady() internal {
-        if( this.balance >= cost && //donor money is there?
+        if (this.balance >= cost && //donor money is there?
             totalVotes >= UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).totalSupply() / 2) //project supported by workers?
             //check as well if people are signed up?
             {
