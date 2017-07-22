@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Grid, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router'
 
-import { HiddenOnlyAuth, VisibleOnlyAuth } from '../.././util/wrappers.js'
+import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
 
-import LoginButtonContainer from '../.././user/ui/loginbutton/LoginButtonContainer'
-import LogoutButtonContainer from '../.././user/ui/logoutbutton/LogoutButtonContainer'
+import LoginButtonContainer from '../../user/ui/loginbutton/LoginButtonContainer'
+import LogoutButtonContainer from '../../user/ui/logoutbutton/LogoutButtonContainer'
+
+import Logo from '../../img/MetaMesh_icon.svg'
 
 class DashboardLeftNav extends Component {
   constructor(props, { authData }) {
@@ -37,11 +39,12 @@ class DashboardLeftNav extends Component {
     <div className="">
       <br />
       <div className="logo">
-
-        <Link to="/" className="logo"><img className="logo" width="100px" height="100px" src="https://nycmesh.net/assets/images/logo.png" /></Link> <br /><br />
+        <Link to="/" className="logo"><img className="logo" width="80px" height="80px" src={Logo} alt="MetaMesh Logo" /></Link>
+        <h1>MetaMesh</h1>
+        <br /><br />
       </div>
       <div>
-        <ul>
+        <ul className="pure-menu-list">
           <OnlyGuestLinks />
           <OnlyAuthLinks />
         </ul>

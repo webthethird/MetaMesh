@@ -2,11 +2,15 @@
 
 body,
 .pure-g [class*=pure-u] {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 h1, h2, h3 {
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: 'Ubuntu', 'Arial Narrow', sans-serif;
+}
+
+h1 {
+  font-size: 3em;
 }
 
 pre {
@@ -44,7 +48,7 @@ pre {
 }
 
 .BillboardPanel--title {
-  font: 900 90px/1.2 'Arial';
+  font: 900 90px/1.2 'Ubuntu';
   display: flex;
   align-items: center;
   flex-grow: 2;
@@ -53,7 +57,7 @@ pre {
 }
 
 .BillboardPanel--subtitle {
-  font: 500 36px/1.2 'Arial';
+  font: 500 36px/1.2 'Ubuntu';
   flex-grow: 1;
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
   padding-top: 20px;
@@ -77,7 +81,7 @@ pre {
   position: fixed;
   padding: 5px;
   background: #0c1a2b;
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: 'Ubuntu', 'Arial Narrow', sans-serif;
 }
 
 .navbar a {
@@ -90,9 +94,14 @@ pre {
   background: #233e5e;
 }
 
-.navbar .pure-menu-heading {
+.pure-menu-heading {
   font-weight: bold;
   text-transform: none;
+}
+
+.pure-menu-link {
+  text-align: center;
+  float: right;
 }
 
 .navbar .navbar-right {
@@ -101,7 +110,7 @@ pre {
 
 .uport-logo {
   height: 16px;
-  margin-right: 10px;
+  margin: 10px;
 }
 
 .left-nav  {
@@ -120,6 +129,18 @@ pre {
 
 .logo2 {
     left: 120px;
+}
+
+.logo {
+    display: inline;
+}
+
+.logo img {
+    float: left;
+}
+
+.logo h1 {
+    padding-left: 10px;
 }
 
 img.center {

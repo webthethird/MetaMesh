@@ -8,6 +8,7 @@ import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 import './bootstrap-3.3.7-dist 2/css/bootstrap.css'
 
 // Styles
+import './css/ubuntu.css'
 import './css/oswald.css'
 import './css/open-sans.css'
 import './css/pure-min.css'

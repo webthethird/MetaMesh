@@ -10,7 +10,6 @@ import App from './App'
 import Home from './layouts/home/Home'
 import Dashboard from './layouts/dashboard/Dashboard'
 import Profile from './user/layouts/profile/Profile'
-import Dashboard2 from './layouts/dashboard/Dashboard2'
 import DashboardLeftNav from './layouts/dashboard/DashboardLeftNav'
 import Proposals from './layouts/dashboard/Proposals'
 import Donate from './layouts/dashboard/Donate'
@@ -28,7 +27,6 @@ ReactDOM.render((
           <IndexRoute component={Home} />
           <Route path="dashboard" component={UserIsAuthenticated(Dashboard)} />
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
-          <Route path="dashboard2" component={Dashboard2} />
           <Route path="proposals" component={Proposals} />
           <Route path="proposals" component={Proposals} />
           <Route path="donate" component={Donate} />
