@@ -7,8 +7,8 @@ The goal of MetaMesh is to support the continuous addition of mesh nodes and the
 ## Install and Run
 Currently only runs the basic Truffle React-uPort box
 ```
-git clone https://github.com/jessicica14/MetaMesh.git
-cd MetaMesh/MetaMesh-master/truffle
+git clone https://github.com/webthethird/MetaMesh.git
+cd MetaMesh
 npm install
 npm run start
 ```
