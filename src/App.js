@@ -5,6 +5,7 @@ import { HiddenOnlyAuth, VisibleOnlyAuth } from './util/wrappers.js'
 // UI Components
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
+import './bootstrap-3.3.7-dist 2/css/bootstrap.css'
 
 // Styles
 import './css/oswald.css'
