@@ -1,5 +1,15 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var ProposalRegistry = artifacts.require("./ProposalRegistry.sol");
+var UserRegistry = artifacts.require("./UserRegistry.sol");
+var Concept = artifacts.require("./Concept.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+    deployer.then(function(){
+        return deployer.deploy(ProposalRegistry)
+    }).then(function(instance){
+        return deployer.deploy(UserRegistry, ProposalRegistry.address)
+    }).then(function(){
+        return ProposalRegistry.deployed()
+    }).then(function(instance){
+        return instance.init(UserRegistry.address)
+    })
 };
