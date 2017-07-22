@@ -2,11 +2,11 @@
 
 body,
 .pure-g [class*=pure-u] {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 h1, h2, h3 {
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: 'Ubuntu', 'Arial Narrow', sans-serif;
 }
 
 pre {
@@ -44,7 +44,7 @@ pre {
 }
 
 .BillboardPanel--title {
-  font: 900 90px/1.2 'Arial';
+  font: 900 90px/1.2 'Ubuntu';
   display: flex;
   align-items: center;
   flex-grow: 2;
@@ -53,7 +53,7 @@ pre {
 }
 
 .BillboardPanel--subtitle {
-  font: 500 36px/1.2 'Arial';
+  font: 500 36px/1.2 'Ubuntu';
   flex-grow: 1;
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
   padding-top: 20px;
@@ -77,7 +77,7 @@ pre {
   position: fixed;
   padding: 5px;
   background: #0c1a2b;
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-family: 'Ubuntu', 'Arial Narrow', sans-serif;
 }
 
 .navbar a {
