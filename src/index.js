@@ -13,7 +13,8 @@ import Profile from './user/layouts/profile/Profile'
 import DashboardLeftNav from './layouts/dashboard/DashboardLeftNav'
 import Proposals from './layouts/dashboard/Proposals'
 import Donate from './layouts/dashboard/Donate'
-import DashboardContainer from './layouts/dashboard/DashboardLeftNav'
+import DashboardContainer from './layouts/dashboard/DashboardLeftNav2'
+import ProposalDetail from './layouts/dashboard/ProposalDetail'
 
 // Redux Store
 import store from './store'
@@ -25,10 +26,10 @@ ReactDOM.render((
       <Router history={history}>
         <Route path="/" component={App}>
           <IndexRoute component={Home} />
-          <Route path="dashboard" component={UserIsAuthenticated(Dashboard)} />
+          <Route path="dashboard" component={Dashboard} />
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
           <Route path="proposals" component={Proposals} />
-          <Route path="proposals" component={Proposals} />
+          <Route path="proposal" component={ProposalDetail} />
           <Route path="donate" component={Donate} />
         </Route>
       </Router>

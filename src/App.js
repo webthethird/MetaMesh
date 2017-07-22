@@ -6,6 +6,8 @@ import { HiddenOnlyAuth, VisibleOnlyAuth } from './util/wrappers.js'
 import LoginButtonContainer from './user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from './user/ui/logoutbutton/LogoutButtonContainer'
 import './bootstrap-3.3.7-dist 2/css/bootstrap.css'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 // Styles
 import './css/ubuntu.css'
@@ -37,16 +39,17 @@ class App extends Component {
   }
 
     return (
-      <div className="App">
-      {// <nav className="navbar pure-menu pure-menu-horizontal">
-        //   <Link to="/" className="pure-menu-heading pure-menu-link">MetaMesh</Link>
-        //   <ul className="pure-menu-list navbar-right">
-        //   </ul>
-        // </nav
-      }
+      <MuiThemeProvider>
+        <div className="App">
+        {// <nav className="navbar pure-menu pure-menu-horizontal">
+          //   <Link to="/" className="pure-menu-heading pure-menu-link">MetaMesh</Link>
+          //   <ul className="pure-menu-list navbar-right">
+          //   </ul>
+          // </nav
+        }
 
         {this.props.children}
-      </div>
+      </div></MuiThemeProvider>
     );
   }
 }

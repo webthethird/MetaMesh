@@ -75,7 +75,7 @@ class DashboardContainer extends Component {
     render() {
         return (
     
-    <DashboardLeftNav ether = { this.state.ether } token = { this.state.token } />
+    <DashboardLeftNav2 ether = { this.state.ether } token = { this.state.token } />
                 );
     }
 }

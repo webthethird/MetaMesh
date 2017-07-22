@@ -50,14 +50,14 @@ class DashboardLeftNav extends Component {
         </ul>
       </div>
       <div> the mesh network currently has </div>
-      <div> 352,000 </div>
+      <div> { this.props.ether } </div>
       <div> ETH </div>
       <div> to fund mesh projects <hr /> </div>
       <div> 1 token currently costs </div>
-      <div> 0.04 ETH <hr /></div>
+      <div> { this.props.token_cost } ETH <hr /></div>
       <div> you currently have <br /> </div>
-      <div> 20 votes </div>
-      <div> 3 commits </div> <br /> <br />
+      <div> { this.props.votes } votes </div>
+      <div> { this.props.commits } commits </div> <br /> <br />
       <div> more account information <br /><br /></div>
       <div> <Link to="/" className="btn btn-default">I want to donate to the mesh</Link> </div>
 

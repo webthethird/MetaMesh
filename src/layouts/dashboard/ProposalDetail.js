@@ -6,7 +6,7 @@ import DashboardContainer from '../.././layouts/dashboard/DashboardLeftNav2'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-class Proposals extends Component {
+class ProposalDetail extends Component {
   constructor(props, { authData }) {
     super(props)
     authData = this.props
@@ -40,6 +40,10 @@ class Proposals extends Component {
      return 10
      }
 
+  getSingleProposal(index) {
+    return this.state.proposals[index]
+  }
+
   render() {
 
 
@@ -48,9 +52,11 @@ class Proposals extends Component {
   );*/}
 
 
+var single_proposal;
+single_proposal = this.getSingleProposal(0);
 const listItems = this.state.proposals.map((proposal) =>
     <div> 
-      <Link to="/proposal"> {proposal.title}</Link> <br />
+      <Link to="/dashboard"> {proposal.title}</Link> <br />
       {/*Commits { proposal.details } <br />*/}
 
 
@@ -123,4 +129,4 @@ const listItems = this.state.proposals.map((proposal) =>
   }
 }
 
-export default Proposals
+export default ProposalDetail
