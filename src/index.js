@@ -13,6 +13,8 @@ import Profile from './user/layouts/profile/Profile'
 import Dashboard2 from './layouts/dashboard/Dashboard2'
 import DashboardLeftNav from './layouts/dashboard/DashboardLeftNav'
 import Proposals from './layouts/dashboard/Proposals'
+import Donate from './layouts/dashboard/Donate'
+import DashboardContainer from './layouts/dashboard/DashboardLeftNav'
 
 // Redux Store
 import store from './store'
@@ -28,6 +30,8 @@ ReactDOM.render((
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
           <Route path="dashboard2" component={Dashboard2} />
           <Route path="proposals" component={Proposals} />
+          <Route path="proposals" component={Proposals} />
+          <Route path="donate" component={Donate} />
         </Route>
       </Router>
     </Provider>
