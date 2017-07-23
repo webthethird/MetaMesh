@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Grid, Col, Row } from 'react-bootstrap';
+import { uport, web3 } from './../../util/connectors.js'
 import { Link } from 'react-router'
 import DashboardLeftNav from './DashboardLeftNav'
 import DashboardContainer from '../.././layouts/dashboard/DashboardLeftNav2'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
 
 class Proposals extends Component {
   constructor(props, { authData }) {
@@ -31,7 +32,7 @@ class Proposals extends Component {
                     details: this.getCommits()
                 }
             ]
-        
+
     };
   }
 
@@ -41,31 +42,59 @@ class Proposals extends Component {
      }
 
   render() {
+    console.log(this.props.authData);
+    //
+    const mnid = require('mnid')
+    function checkAddressMNID (addr) {
+      if (mnid.isMNID(addr)) {
+        return mnid.decode(addr).address
+      } else {
+        return addr
+      }
+    }
+    // var address = checkAddressMNID(this.props.authData.address);
+    var address = web3.eth.getCoinbase();
+    console.log('decoded address:',address);
 
+    function ProposalSetup () {
+      let ProposalABI = web3.eth.contract([{"constant":false,"inputs":[{"name":"share","type":"uint256"}],"name":"updateShares","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"addr","type":"address"}],"name":"getShares","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"}])
+      let ProposalContractObj = ProposalABI.at('0x432472827c271b795402cd385df9f425d0bf1cfe')
+      return ProposalContractObj
+    }
+    const ProposalContract = ProposalSetup()
 
-  {/*const listItems = this.state.proposals.map((proposal) =>
-    <div>{proposal}</div>
-  );*/}
+    function getVotes () {
+      ProposalContract.totalVotes
+      .call(address, (error, votes) => {
+        const voteNumberDecoded = votes.toNumber()
+        console.log('Shares',voteNumberDecoded);
+        this.state.votes = voteNumberDecoded;
+        return voteNumberDecoded
+      })
+    }
 
-
-const listItems = this.state.proposals.map((proposal) =>
-    <div> 
-      <Link to="/proposal"> {proposal.title}</Link> <br />
+    const listItems = this.state.proposals.map((proposal, index) =>
+    <div>
+      <Link to={`/proposal/${index}`}>{proposal.title}</Link> <br />
       {/*Commits { proposal.details } <br />*/}
-
-
 
       <div className="row">
         <div className="col-sm-6">
           send &nbsp;
           <TextField
+            name="endorse"
             hintText=""
            />
           endorsements
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          80 out of 100 endorsements reached
+          <span style={{ 'padding-left': '70px' }}>80 out of 100 endorsements reached</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
         </div>
         <div className="col-sm-6">
           donate &nbsp;
@@ -76,17 +105,14 @@ const listItems = this.state.proposals.map((proposal) =>
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-           0.1 out of 2 ETH has been committed
-        </div> <br /> 
+           <span style={{ 'padding-left': '70px' }}>0.1 out of 2 ETH has been committed</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
+        </div> <br />
       </div>
-
-      <div className="row">
-        <br />
-        <div className="col-sm-5"></div>
-        <div className=""><RaisedButton primary={true} label="Commit" /></div>
-      </div>
-
-
 
     </div>
   );
@@ -101,16 +127,16 @@ const listItems = this.state.proposals.map((proposal) =>
 <div className="container-fluid">
   <div className="row">
     <div className="col-sm-3 left-nav">
-      <DashboardLeftNav 
-        ether = { this.state.ether } 
+      <DashboardLeftNav
+        ether = { this.state.ether }
         token_cost = { this.state.token_cost }
-        votes = { this.state.votes } 
-        commits = { this.state.commits } 
+        votes = { this.state.votes }
+        commits = { this.state.commits }
     />
     </div>
     <div className="col-sm-9">
       <h2> Proposals </h2>
-      {listItems}
+        {listItems}
     </div>
   </div>
 </div>
