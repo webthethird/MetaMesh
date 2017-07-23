@@ -27,6 +27,10 @@ contract Proposal {
         Rejected
     }
 
+    function getBalance() returns(uint){
+        return this.balance;
+    }
+
     modifier onlyBefore(uint _time) { if (now >= _time) killAndRefund(); _; }
 
     modifier onlyInStage(State _state) {
@@ -68,8 +72,8 @@ contract Proposal {
             totalVotes >= UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).totalSupply() / 2) //project supported by workers?
             //check as well if people are signed up?
             {
-            ProposalRegistry(proposalRegistry).notify(2);
-            proposalState = State.InProgress;
+                ProposalRegistry(proposalRegistry).notify(address(this),2);
+                proposalState = State.InProgress;
         }
     }
 

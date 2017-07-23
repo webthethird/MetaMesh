@@ -17,7 +17,7 @@ contract ProposalRegistry {
       1 = Proposal created
       2 = Proposal accepted/passed
     */
-    event Notification(address _proposal, uint _code);
+    event Notification(address sender, address proposal, uint code);
 
     function init(address _userRegistry) returns(bool){
         if (initialized == false) {
@@ -31,11 +31,12 @@ contract ProposalRegistry {
         Proposal newProposal = new Proposal(nextId, _cost, now + _votingTime); //check if id++ work
         nextId++;
         proposalExists[address(newProposal)] = true;
+        notify(address(newProposal), 1);
         return address(newProposal);
     }
 
-    function notify(uint _code){
-        Notification(msg.sender, _code);
+    function notify(address _contract, uint _code){
+        Notification(msg.sender, _contract, _code);
     }
 
 }

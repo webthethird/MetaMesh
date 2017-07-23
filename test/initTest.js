@@ -13,3 +13,8 @@ contract("ProposalRegistry", function(accounts) {
         })
     })
 })
+
+
+function getProposalAddress(receipt){
+    return proposalAddress
+}
