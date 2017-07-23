@@ -5,6 +5,7 @@ import DashboardLeftNav from './DashboardLeftNav'
 import DashboardContainer from '../.././layouts/dashboard/DashboardLeftNav2'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import $ from 'jquery';
 
 class ProposalDetail extends Component {
   constructor(props, { authData }) {
@@ -23,12 +24,16 @@ class ProposalDetail extends Component {
              proposals: [  {
                     contract_address: '',
                     title: 'Proposal to install a new node',
-                    details: this.getCommits()
+                    details: this.getCommits(),
+                    goals: 'Goal of project',
+                    location: 'Brooklyn'
                 },
                 {
                     contract_address: '',
                     title: 'Fund Project',
-                    details: this.getCommits()
+                    details: this.getCommits(),
+                    goals: 'Goal of project',
+                    location: 'Brooklyn'
                 }
             ]
         
@@ -42,6 +47,21 @@ class ProposalDetail extends Component {
 
   getSingleProposal() {
     return [this.state.proposals[this.props.params.index]]
+  }
+
+  volunteer(id) {
+    var endorsement = $("#endorse_" + id).val();
+    alert(endorsement);
+  }
+
+  endorseProposal(id) {
+    var endorsement = $("#endorse_" + id).val();
+    alert(endorsement);
+  }
+
+  donateEther(id) {
+    var eth = $("#donate_" + id).val();
+    alert(eth);
   }
 
   render() {
@@ -67,6 +87,8 @@ const listItems = single_proposal.map((proposal) =>
           send &nbsp;
           <TextField
             hintText=""
+            id={`endorse_${this.props.params.index}`}
+            name={`endorse_${this.props.params.index}`}
            />
           endorsements
           <div className="progress">
@@ -76,13 +98,15 @@ const listItems = single_proposal.map((proposal) =>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.endorseProposal(this.props.params.index)}}/></div>
           </div>
         </div>
         <div className="col-sm-6">
           donate &nbsp;
           <TextField
             hintText=""
+            id={`donate_${this.props.params.index}`}
+            name={`donate_${this.props.params.index}`}
            />
           eth
           <div className="progress">
@@ -92,7 +116,7 @@ const listItems = single_proposal.map((proposal) =>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.donateEther(this.props.params.index)}}/></div>
           </div>
         </div> <br /> 
       </div>
@@ -101,7 +125,10 @@ const listItems = single_proposal.map((proposal) =>
       <div className="row">
         <br />
         <div><b>Goals</b> { proposal.goals }</div>
+        <div><b>Date</b> { proposal.date }</div>
         <div><b>Location</b> { proposal.location }</div>
+        <div><b>Task List</b> </div>
+        <div className="" style={{ float: 'right', padding: '20px' }} onClick={()=>{this.volunteer(this.props.params.index)}}><RaisedButton secondary={true} label="Volunteer for this project" /></div>
       </div>
 
 
