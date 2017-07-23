@@ -28,7 +28,7 @@ ReactDOM.render((
           <IndexRoute component={Home} />
           <Route path="dashboard" component={Dashboard} />
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
-          <Route path="proposals" component={Proposals} />
+          <Route path="proposals" component={UserIsAuthenticated(Proposals)} />
           <Route path="proposal/:index" component={ProposalDetail} />
           <Route path="donate" component={Donate} />
         </Route>

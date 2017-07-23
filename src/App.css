@@ -10,7 +10,7 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.75em;
 }
 
 pre {
@@ -53,15 +53,16 @@ pre {
   align-items: center;
   flex-grow: 2;
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
-  color: lightblue;
-  padding-top: 60px;
+  color: black;
+  padding-top: 20px;
 }
 
 .BillboardPanel--subtitle {
-  font: 500 36px/1.2 'Ubuntu';
+  font: 500 24px/1.2 'Ubuntu';
   flex-grow: 1;
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
   padding-top: 20px;
+  color: black;
 }
 
 .pure-button-primary {

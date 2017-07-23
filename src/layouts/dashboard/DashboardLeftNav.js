@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
-import { Grid, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router'
- 
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
 
 import LoginButtonContainer from '../../user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from '../../user/ui/logoutbutton/LogoutButtonContainer'
 
 import Logo from '../../img/MetaMesh_icon.svg'
- 
+
 class DashboardLeftNav extends Component {
   constructor(props, { authData }) {
     super(props)
     authData = this.props
   }
- 
+
   render() {
+    var imgsrc = 'http://ipfs.infura.io'+this.props.image;
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <span>
         <li className="pure-menu-item">
@@ -27,7 +26,7 @@ class DashboardLeftNav extends Component {
         <LogoutButtonContainer />
       </span>
     )
- 
+
     const OnlyGuestLinks = HiddenOnlyAuth(() =>
       <span>
         <LoginButtonContainer />
@@ -38,6 +37,13 @@ class DashboardLeftNav extends Component {
       <span>
         <LoginButtonContainer />
       </span>
+    )
+
+    const ImageData = VisibleOnlyAuth(() =>
+      <div>
+          <img className="logo" width="70px" height="70px" src={this.props.image} alt={'Profile Pic'} />
+          <div style={{ color: 'white', 'padding-left': '10px', 'font-size': '16px', 'vertical-align': 'middle' }}>Logged in as:<br /><strong>{this.props.name}</strong></div>
+      </div>
     )
 
     const AuthData = VisibleOnlyAuth(() =>
@@ -65,6 +71,7 @@ return(
       <div>
         <ul className="pure-menu-list">
           <GuestData />
+          <ImageData />
           <AuthData />
         </ul>
       </div>
@@ -74,5 +81,3 @@ return(
 }
 
 export default DashboardLeftNav
-
-
