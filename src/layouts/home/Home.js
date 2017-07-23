@@ -1,4 +1,10 @@
 import React, { PropTypes, Component } from 'react'
+import { Link } from 'react-router'
+import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
+
+// UI Components
+import LoginButtonContainer from '../../user/ui/loginbutton/LoginButtonContainer'
+import LogoutButtonContainer from '../../user/ui/logoutbutton/LogoutButtonContainer'
 
 // import GoogleMap from 'google-map-react'
 console.log(PropTypes);
@@ -19,6 +25,7 @@ class Home extends Component {
               <div className="BillboardPanel--subtitle">
                   {subtitle.split('/n')}
               </div>
+              <LoginButtonContainer />
           </div>
         </div>
         <div className="pure-g">
