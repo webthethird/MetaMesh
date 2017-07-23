@@ -2,7 +2,6 @@ pragma solidity ^0.4.11;
 
 import "./ProposalRegistry.sol";
 import "./UserRegistry.sol";
-import "./Oracle.sol";
 
 /*
   a created Proposal
@@ -23,7 +22,7 @@ contract Proposal {
     Volunteer[] public volunteers;
     uint[] public roles;
     uint public totalVotesNeeded;
-   
+
     enum State {
         Proposed,
         InProgress,
@@ -195,4 +194,3 @@ contract Proposal {
     }
 
 }
-

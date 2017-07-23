@@ -54,6 +54,7 @@ class Proposals extends Component {
 
   render() {
     const mnid = require('mnid')
+
     function checkAddressMNID (addr) {
       if (mnid.isMNID(addr)) {
         return mnid.decode(addr).address
@@ -68,23 +69,42 @@ class Proposals extends Component {
     console.log(imgsrc);
 
     function ProposalRegistrySetup () {
-      let ProposalRegistryABI = web3.eth.contract([{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_userRegistry","type":"address"}],"name":"init","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"proposalExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_contract","type":"address"},{"name":"_code","type":"uint256"}],"name":"notify","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"userRegistry","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_cost","type":"uint256"},{"name":"_votingTime","type":"uint256"}],"name":"makeProposal","outputs":[{"name":"newProposalAddress","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"proposal","type":"address"},{"indexed":false,"name":"code","type":"uint256"}],"name":"Notification","type":"event"}])
-      let ProposalRegistryContractObj = ProposalRegistryABI.at('0x0ecF1c51A911BE4d76f68BEa4559FDed43c75e0d')
+      let ProposalRegistryABI = web3.eth.contract([{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"proposals","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_cost","type":"uint256"},{"name":"_votingTime","type":"uint256"},{"name":"workers","type":"uint256[]"}],"name":"makeProposal","outputs":[{"name":"newProposalAddress","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_userRegistry","type":"address"}],"name":"init","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"proposalExists","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_contract","type":"address"},{"name":"_code","type":"uint256"}],"name":"notify","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"userRegistry","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"proposal","type":"address"},{"indexed":false,"name":"code","type":"uint256"}],"name":"Notification","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"x","type":"uint256"}],"name":"fb","type":"event"}])
+      let ProposalRegistryContractObj = ProposalRegistryABI.at('0x23366d723f04730ed4a78599df9a16275d739f3c')
       return ProposalRegistryContractObj
     }
     const ProposalRegistryContract = ProposalRegistrySetup()
 
-    function getProposals () {
-      ProposalRegistryContract.proposals
-      .call((error, proposals) => {
-        const proposalNum = proposals.length;
-        console.log('Proposals',proposals);
-        this.state.proposals = proposals;
-        return proposals
-      })
+    {// function getProposals () {
+    //   ProposalRegistryContract.proposals
+    //   .call((error, proposals) => {
+    //     const proposalNum = proposals.length;
+    //     console.log('Proposals',proposals);
+    //     this.state.proposals = proposals;
+    //     return proposals
+    //   })
+    // }
+    //
+    // getProposals();
+}
+    function UserRegistrySetup () {
+      let UserRegistryABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"addBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_addr","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_amount","type":"uint256"}],"name":"subtractBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_proposalRegistry","type":"address"},{"name":"firstUser","type":"address"},{"name":"initialUserBalance","type":"uint256"}],"payable":false,"type":"constructor"}])
+      let UserRegistryContractObj = UserRegistryABI.at('0x7e1b666b229f68748e6d78e782b679c1d246e53c')
+      return UserRegistryContractObj
     }
+    const UserRegistryContract = UserRegistrySetup()
 
-    getProposals();
+    // function getUserBalance ( address ) {
+    //   UserRegistryContract.balanceOf.call(address, (error, bal) => {
+    //     console.log(bal);
+    //     // this.props.authData.balance = bal;
+    //   })
+    // }
+    //
+    // // getUserBalance(web3.eth.coinbase);
+    // web3.eth.getCoinbase((error, address) => {
+    //   getUserBalance(address)
+    // })
 
     function makeProposal (cost, time) {
       ProposalRegistryContract.makeProposal(cost, time, (error, txHash) => {
