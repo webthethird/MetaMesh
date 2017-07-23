@@ -96,7 +96,8 @@ class Proposals extends Component {
     }
 
     // TODO listen to event to get proposal address
-    function makeProposal (cost, votetime, roles, oracle) {
+    function makeProposal ({//cost, votetime, roles, oracle) {
+      var cost = web3.toWei('1', 'ether');
       ProposalRegistryContract.makeProposal(cost, votetime, roles, oracle, (error, proposal) => {
         if (error) {
           console.log('proposal failed');
@@ -196,7 +197,7 @@ class Proposals extends Component {
     </div>
     <div className="col-sm-9">
       <h2> Proposals </h2>
-      <div className=""><RaisedButton primary={false} label="New Proposal" onClick={()=>{this.makeProposal(index)}}/></div>
+      // <div className=""><RaisedButton primary={false} label="New Proposal" onClick={()=>{this.makeProposal(index)}}/></div>
         {listItems}
     </div>
   </div>
