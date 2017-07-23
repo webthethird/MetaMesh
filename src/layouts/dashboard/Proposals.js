@@ -94,18 +94,29 @@ class Proposals extends Component {
       console.log('first addr',addr);
     })
 
+    var propAddr = []
+    var propObjs = []
     function getProposalAddresses (num) {
-        var propAddr = []
         for (var i=0; i<num; i++){
             ProposalRegistryContract.proposals.call(i, (error, _addr) => {
               if(error) { console.log('err',error); }
               console.log('Proposal Addr:',_addr);
                 propAddr.push(_addr)
+                propObjs.push(ProposalSetup(_addr))
+                console.log('PropObj', propObjs)
             })
         }
+        // getProposalObjects(propAddr)
         console.log('all?',propAddr)
     }
     getProposalsLength()
+    // function getProposalObjects(r) {
+    //   for (var i = 0; i < r.length; i++) {
+    //     var proposal = ProposalSetup(r[i])
+    //     console.log(proposal)
+    //     propObjs.push(proposal)
+    //   }
+    // }
 
     function UserRegistrySetup () {
       let UserRegistryABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"addBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"who","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_amount","type":"uint256"}],"name":"subtractBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_proposalRegistry","type":"address"},{"name":"firstUser","type":"address"},{"name":"initialUserBalance","type":"uint256"}],"payable":false,"type":"constructor"}])
