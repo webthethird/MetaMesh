@@ -22,6 +22,8 @@ contract ProposalRegistry {
       12 = Volunteer: buy antenna
       13 = Volunteer found to install antenna
       14 = Volunteer found to come along and learn
+      99 = volunteer got paid
+      50 = proposal completed
     */
     event Notification(address sender, address proposal, uint code);
 

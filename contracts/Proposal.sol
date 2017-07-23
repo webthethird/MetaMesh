@@ -162,13 +162,22 @@ contract Proposal {
 
     function reportCompletion() onlyInStage(State.InProgress){
         //how to check whether that is true???
-        if (Oracle(oracle).completed()){
-            refundMeshTokens();
-            for (uint i=0; i<roles.length; i++){
-                UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).mint(volunteers[i].workerAddress,
-                                                                                           volunteers[i].hours);
-            }
-        }
+        /* if (Oracle(oracle).completed()){ */
+        /*     refundMeshTokens(); */
+        /*     for (uint i=0; i<roles.length; i++){ */
+        /*         UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).mint(volunteers[i].workerAddress, */
+        /*                                                                                    volunteers[i].hours); */
+        /*     } */
+        /*     if (volunteers[i].workerAddress.send(volunteers[i].reward)){ */
+        /*         ProposalRegistry(proposalRegistry).notify(volunteers[i].workerAddress, 99); */
+        /*     } */
+        /*     ProposalRegistry(proposalRegistry).notify(volunteers[i].workerAddress, 50); */
+        /*     proposalState = Completed; */
+        /* } */
+        /* else { */
+        /*     //refund donors, burn volunteerStakes, */
+        /*     //refundMeshTokens */
+        /* } */
     }
 
    function refundMeshTokens() internal {
