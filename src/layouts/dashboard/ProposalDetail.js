@@ -70,6 +70,8 @@ class ProposalDetail extends Component {
   {/*const listItems = this.state.proposals.map((proposal) =>
     <div>{proposal}</div>
   );*/}
+      
+    var imgsrc = this.state.image = 'https://ipfs.infura.io'+this.props.authData.image.contentUrl;
 
 
 var single_proposal;
@@ -151,6 +153,8 @@ const listItems = single_proposal.map((proposal) =>
         token_cost = { this.state.token_cost }
         votes = { this.state.votes }
         commits = { this.state.commits }
+           image = { this.state.image }
+           name = { this.props.authData.name }
     />
     </div>
     <div className="col-sm-9">
