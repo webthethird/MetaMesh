@@ -100,7 +100,7 @@ const listItems = single_proposal.map((proposal) =>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.endorseProposal(this.props.params.index)}}/></div>
+            <div className=""><RaisedButton primary={true} label="Volunteer" onClick={()=>{this.endorseProposal(this.props.params.index)}}/></div>
           </div>
         </div>
         <div className="col-sm-6">
