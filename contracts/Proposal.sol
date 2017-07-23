@@ -2,6 +2,7 @@ pragma solidity ^0.4.11;
 
 import "./ProposalRegistry.sol";
 import "./UserRegistry.sol";
+import "./Oracle.sol";
 
 /*
   a created Proposal
@@ -19,8 +20,9 @@ contract Proposal {
     address[] supporters;
     address[] donors;
     bytes32 data;
-    Volunteer[] volunteers;
-    uint totalVotesNeeded;
+    Volunteer[] public volunteers;
+    uint[] public roles;
+    uint public totalVotesNeeded;
    
     enum State {
         Proposed,
@@ -28,9 +30,9 @@ contract Proposal {
         Completed,
         Rejected
     }
-    struct  Volunteer {
+    struct Volunteer {
         address workerAddress;
-        uint role;  //code for role
+        uint role;
         uint time;
         uint reward;
         bool free;
@@ -38,9 +40,9 @@ contract Proposal {
 
     /*
       code for role and default values:
-      1: buy antenna -> 1 hour, 1 ether
-      2: install antenna: 2 hours, 0 ether
-      3: come along and watch: 1 hours, 0 ether
+      12: buy antenna -> 1 hour, 1 ether
+      13: install antenna: 2 hours, 0 ether
+      14: come along and watch: 1 hours, 0 ether
     */
 
     function getBalance() returns(uint){
@@ -54,15 +56,26 @@ contract Proposal {
         _;
     }
 
-    /* function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded, uint[] _roles){ */
-    function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded){
+    function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded, uint[] workers){
         proposalRegistry = msg.sender;
         id = _id;
         cost = _cost;
         votingDeadline = _votingDeadline;
-        /* volunteers = _roles; */
         totalVotesNeeded = _votesNeeded;
+        roles = workers;
+        for (uint i=0; i<workers.length; i++){
+            if (workers[i] == 12) { // volunteer buys antenna
+                volunteers.push(Volunteer(msg.sender, workers[i], 1 ,1 ether,true));
+            }
+            if (workers[i] == 13) { // volunteer installs antenna
+                volunteers.push(Volunteer(msg.sender, workers[i],2, 0 , true));
+            }
+            if (workers[i] == 14) { // volunteer installs antenna
+                volunteers.push(Volunteer(msg.sender,workers[i], 2, 0 , true));
+            }
+        }
     }
+
 
     /*
       called to back the proposal
@@ -87,10 +100,18 @@ contract Proposal {
     }
 
     function volunteer(uint role) onlyInStage(State.Proposed) {
-        if (volunteers[role].free && //role is still needed
-            UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, volunteers[role].time)) { //and volunteer can stake
-            volunteers[role].workerAddress = msg.sender;
-            volunteers[role].free = false;
+        //whoaaaah hackkky shit!!
+        uint idx = 0;
+        for (uint j=0; j<roles.length;j++){
+            if (roles[j] == role){
+                idx = j;
+            }
+        }
+        if (volunteers[idx].free && //role is still needed
+            UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, volunteers[idx].time))
+            { //and volunteer can stake
+            /* volunteers[role].workerAddress = msg.sender; */
+            /* volunteers[idx].free = false; */
             ProposalRegistry(proposalRegistry).notify(msg.sender,role);
         }
     }
@@ -105,20 +126,26 @@ contract Proposal {
         }
     }
 
-    function workforceCompleteCheck() internal returns(bool missing){
-        for (uint i=0; i<volunteers.length; i++){
-            missing = missing && volunteers[i].free;
-        }
+    function workforceCompleteCheck() internal returns(bool ){
+        /* for (uint i=0; i<roles.length; i++){ */
+        /*     if( volunteers[i].free ){ */
+        /*         return false; */
+        /*     } else { return true; } */
+        /* } */
     }
 
     function fund()
         payable
         onlyBefore(votingDeadline)
-            onlyInStage(State.Proposed) {
+        onlyInStage(State.Proposed) {
         if (funds[msg.sender] == 0) {
             donors.push(msg.sender);
         }
         funds[msg.sender] += msg.value;
+    }
+
+    function getTotalFunds() returns(uint){
+        return this.balance;
     }
 
     function withdrawVotes(address supporter){
@@ -135,7 +162,13 @@ contract Proposal {
 
     function reportCompletion() onlyInStage(State.InProgress){
         //how to check whether that is true???
-        refundMeshTokens();
+        if (Oracle(oracle).completed()){
+            refundMeshTokens();
+            for (uint i=0; i<roles.length; i++){
+                UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).mint(volunteers[i].workerAddress,
+                                                                                           volunteers[i].hours);
+            }
+        }
     }
 
    function refundMeshTokens() internal {
