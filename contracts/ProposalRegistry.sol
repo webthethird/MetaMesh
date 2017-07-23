@@ -27,6 +27,10 @@ contract ProposalRegistry {
     */
     event Notification(address sender, address proposal, uint code);
 
+    function getLastProposalIndex() returns(uint){
+        return proposals.length;
+    }
+
     function init(address _userRegistry) returns(bool){
         if (initialized == false) {
             nextId = 1;
