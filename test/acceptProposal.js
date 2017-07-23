@@ -1,6 +1,7 @@
 var ProposalRegistry = artifacts.require("ProposalRegistry.sol");
 var UserRegistry = artifacts.require("UserRegistry.sol");
 var Proposal = artifacts.require("Proposal.sol");
+var ArbiterOracle = artifacts.require("ArbiterOracle.sol");
 
 accounts = web3.eth.accounts
 utils = require("../js/utils.js")
@@ -18,9 +19,11 @@ contract("Accepting ", function(accounts) {
     describe("a Proposal", async () => {
         var propReg;
         var proposal;
+        var oracle;
         it("is created.", async () => {
             propReg = await ProposalRegistry.deployed()
-            receiptFromMakeProposal = await propReg.makeProposal(cost, votingTime,roles)
+            oracle = await ArbiterOracle.deployed()
+            receiptFromMakeProposal = await propReg.makeProposal(cost, votingTime,roles, oracle.address)
             proposalAddress = utils.getProposalAddress(receiptFromMakeProposal)
             proposal = await Proposal.at(proposalAddress)
             // console.log(proposalAddress)
@@ -29,6 +32,7 @@ contract("Accepting ", function(accounts) {
 
         })
         it("Donors endorse the proposal by paying ether", async () => {
+            utils.evmIncreaseTime(votingTime /3)
             for (d=0;d<donors.length;d++){
                 await proposal.fund({from:donors[d], value:donations[d]})
             }
