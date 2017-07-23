@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import { Grid, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router'
-
+ 
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
 
 import LoginButtonContainer from '../../user/ui/loginbutton/LoginButtonContainer'
 import LogoutButtonContainer from '../../user/ui/logoutbutton/LogoutButtonContainer'
 
 import Logo from '../../img/MetaMesh_icon.svg'
-
+ 
 class DashboardLeftNav extends Component {
   constructor(props, { authData }) {
     super(props)
     authData = this.props
   }
-
+ 
   render() {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <span>
@@ -27,46 +27,48 @@ class DashboardLeftNav extends Component {
         <LogoutButtonContainer />
       </span>
     )
-
+ 
     const OnlyGuestLinks = HiddenOnlyAuth(() =>
       <span>
         <LoginButtonContainer />
       </span>
     )
-    return(
 
+    const GuestData = HiddenOnlyAuth(() =>
+      <span>
+        <LoginButtonContainer />
+      </span>
+    )
 
+    const AuthData = VisibleOnlyAuth(() =>
+    //const AuthData = HiddenOnlyAuth(() =>
+      <div>
+        <div style={{ color: 'white', 'padding-left': '50px' }}> you can currently offer </div>
+        <div style={{ color: 'white', 'padding-left': '100px', 'font-size': '30px' }}> { this.props.ether } </div>
+        <div style={{ color: 'white', 'padding-left': '30px', 'font-size': '25px' }}> endorsements </div>
+        {/*<div> how can I offer more endorsements? <br /><br /></div>*/}
+        <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">volunteered</Link><br /><br /> </div>
+        <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">created</Link><br /><br /> </div>
+        <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">donated</Link><br /><br /> </div>
+        <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">endorsed</Link><br /><br /> </div>
+      </div>
+    )
+
+return(
     <div className="">
       <br />
       <div className="logo">
-        <Link to="/" className="logo"><img className="logo" width="80px" height="80px" src={Logo} alt="MetaMesh Logo" /></Link>
+        <Link to="/proposals" className="logo"><img className="logo" width="80px" height="80px" src={Logo} alt="MetaMesh Logo" /></Link>
         <h1>MetaMesh</h1>
         <br /><br />
       </div>
       <div>
         <ul className="pure-menu-list">
-          <OnlyGuestLinks />
-          <OnlyAuthLinks />
+          <GuestData />
+          <AuthData />
         </ul>
       </div>
-      <div> the mesh network currently has </div>
-      <div> { this.props.ether } </div>
-      <div> ETH </div>
-      <div> to fund mesh projects <hr /> </div>
-      <div> 1 token currently costs </div>
-      <div> { this.props.token_cost } ETH <hr /></div>
-      <div> you currently have <br /> </div>
-      <div> { this.props.votes } votes </div>
-      <div> { this.props.commits } commits </div> <br /> <br />
-      <div> more account information <br /><br /></div>
-      <div> <Link to="/" className="btn btn-default">I want to donate to the mesh</Link> </div>
-
     </div>
-
-
-
-
-
     )
   }
 }

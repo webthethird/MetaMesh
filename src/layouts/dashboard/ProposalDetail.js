@@ -40,8 +40,8 @@ class ProposalDetail extends Component {
      return 10
      }
 
-  getSingleProposal(index) {
-    return this.state.proposals[index]
+  getSingleProposal() {
+    return [this.state.proposals[this.props.params.index]]
   }
 
   render() {
@@ -53,10 +53,11 @@ class ProposalDetail extends Component {
 
 
 var single_proposal;
-single_proposal = this.getSingleProposal(0);
-const listItems = this.state.proposals.map((proposal) =>
+single_proposal = this.getSingleProposal();
+console.log(single_proposal);
+const listItems = single_proposal.map((proposal) =>
     <div> 
-      <Link to="/dashboard"> {proposal.title}</Link> <br />
+      {proposal.title} {this.props.params.index} <br />
       {/*Commits { proposal.details } <br />*/}
 
 
@@ -71,7 +72,12 @@ const listItems = this.state.proposals.map((proposal) =>
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          80 out of 100 endorsements reached
+          <span style={{ 'padding-left': '70px' }}>80 out of 100 endorsements reached</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
         </div>
         <div className="col-sm-6">
           donate &nbsp;
@@ -82,14 +88,20 @@ const listItems = this.state.proposals.map((proposal) =>
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-           0.1 out of 2 ETH has been committed
+           <span style={{ 'padding-left': '70px' }}>0.1 out of 2 ETH has been committed</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
         </div> <br /> 
       </div>
 
+
       <div className="row">
         <br />
-        <div className="col-sm-5"></div>
-        <div className=""><RaisedButton primary={true} label="Commit" /></div>
+        <div><b>Goals</b> { proposal.goals }</div>
+        <div><b>Location</b> { proposal.location }</div>
       </div>
 
 

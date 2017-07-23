@@ -29,7 +29,7 @@ ReactDOM.render((
           <Route path="dashboard" component={Dashboard} />
           <Route path="profile" component={UserIsAuthenticated(Profile)} />
           <Route path="proposals" component={Proposals} />
-          <Route path="proposal" component={ProposalDetail} />
+          <Route path="proposal/:index" component={ProposalDetail} />
           <Route path="donate" component={Donate} />
         </Route>
       </Router>

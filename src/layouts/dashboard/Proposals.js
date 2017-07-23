@@ -5,6 +5,7 @@ import DashboardLeftNav from './DashboardLeftNav'
 import DashboardContainer from '../.././layouts/dashboard/DashboardLeftNav2'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
 
 class Proposals extends Component {
   constructor(props, { authData }) {
@@ -42,30 +43,33 @@ class Proposals extends Component {
 
   render() {
 
-
   {/*const listItems = this.state.proposals.map((proposal) =>
     <div>{proposal}</div>
   );*/}
 
 
-const listItems = this.state.proposals.map((proposal) =>
+  const listItems = this.state.proposals.map((proposal, index) =>
     <div> 
-      <Link to="/proposal"> {proposal.title}</Link> <br />
+      <Link to={`/proposal/${index}`}>{proposal.title}</Link> <br />
       {/*Commits { proposal.details } <br />*/}
-
-
 
       <div className="row">
         <div className="col-sm-6">
           send &nbsp;
           <TextField
+            name="endorse"
             hintText=""
            />
           endorsements
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          80 out of 100 endorsements reached
+          <span style={{ 'padding-left': '70px' }}>80 out of 100 endorsements reached</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
         </div>
         <div className="col-sm-6">
           donate &nbsp;
@@ -76,17 +80,14 @@ const listItems = this.state.proposals.map((proposal) =>
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-           0.1 out of 2 ETH has been committed
+           <span style={{ 'padding-left': '70px' }}>0.1 out of 2 ETH has been committed</span>
+          <div className="row">
+            <br />
+            <div className="col-sm-5"></div>
+            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+          </div>
         </div> <br /> 
       </div>
-
-      <div className="row">
-        <br />
-        <div className="col-sm-5"></div>
-        <div className=""><RaisedButton primary={true} label="Commit" /></div>
-      </div>
-
-
 
     </div>
   );
@@ -110,7 +111,7 @@ const listItems = this.state.proposals.map((proposal) =>
     </div>
     <div className="col-sm-9">
       <h2> Proposals </h2>
-      {listItems}
+        {listItems}
     </div>
   </div>
 </div>
