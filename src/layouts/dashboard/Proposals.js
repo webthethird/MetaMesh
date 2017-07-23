@@ -14,6 +14,7 @@ class Proposals extends Component {
     this.state = {
       value: null,
       ether: 0,
+      balance: 0,
       token_cost: 0.04,
       votes: 10,
       commits: 15,
@@ -63,6 +64,7 @@ class Proposals extends Component {
       }
     }
     var address = this.props.authData.uportId = checkAddressMNID(this.props.authData.address);
+    this.props.authData.balance = 0;
     console.log('decoded address:',address);
     console.log('authData:',this.props.authData);
     var imgsrc = this.state.image = 'https://ipfs.infura.io'+this.props.authData.image.contentUrl;
@@ -75,18 +77,6 @@ class Proposals extends Component {
     }
     const ProposalRegistryContract = ProposalRegistrySetup()
 
-    {// function getProposals () {
-    //   ProposalRegistryContract.proposals
-    //   .call((error, proposals) => {
-    //     const proposalNum = proposals.length;
-    //     console.log('Proposals',proposals);
-    //     this.state.proposals = proposals;
-    //     return proposals
-    //   })
-    // }
-    //
-    // getProposals();
-}
     function UserRegistrySetup () {
       let UserRegistryABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"addBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_addr","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_amount","type":"uint256"}],"name":"subtractBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_proposalRegistry","type":"address"},{"name":"firstUser","type":"address"},{"name":"initialUserBalance","type":"uint256"}],"payable":false,"type":"constructor"}])
       let UserRegistryContractObj = UserRegistryABI.at('0x7e1b666b229f68748e6d78e782b679c1d246e53c')
@@ -94,66 +84,28 @@ class Proposals extends Component {
     }
     const UserRegistryContract = UserRegistrySetup()
 
-    // function getUserBalance ( address ) {
-    //   UserRegistryContract.balanceOf.call(address, (error, bal) => {
-    //     console.log(bal);
-    //     // this.props.authData.balance = bal;
-    //   })
-    // }
-    //
-    // // getUserBalance(web3.eth.coinbase);
-    // web3.eth.getCoinbase((error, address) => {
-    //   getUserBalance(address)
-    // })
+    UserRegistryContract.balanceOf.call(address, (error, bal) => {
+      if (error) { throw error }
+      console.log('Token balance:',bal.c[0]);
+      this.state.balance = bal.c[0];
+      this.props.authData.balance = bal.c[0];
+    })
 
-    function makeProposal (cost, time) {
-      ProposalRegistryContract.makeProposal(cost, time, (error, txHash) => {
-        if (error) { throw error }
-        waitForMined(txHash, { blockNumber: null },
-          function pendingCB () {
-            // Signal to the user you're still waiting
-            // for a block confirmation
-            console.log('waiting for tx to be mined')
-          },
-          function successCB (data) {
-            // Great Success!
-            // Likely you'll call some eventPublisherMethod(txHash, data)
-            console.log(txHash, data)
-          }
-        )
+    function showProposalModal () {
+
+    }
+
+    // TODO listen to event to get proposal address
+    function makeProposal (cost, votetime, roles, oracle) {
+      ProposalRegistryContract.makeProposal(cost, votetime, roles, oracle, (error, proposal) => {
+        if (error) {
+          console.log('proposal failed');
+          throw error
+        }
+        console.log(proposal)
       })
     }
 
-    makeProposal('5', '10');
-
-    {// function NameboxSetup() {
-    //   let NameboxABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"}],"name":"registerUsername","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"addresses","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"usernames","outputs":[{"name":"username","type":"bytes32"},{"name":"owner","type":"address"},{"name":"joined","type":"uint256"},{"name":"blockNumber","type":"uint256"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"}],"name":"NewUser","type":"event"}])
-    //   let NameboxObj = NameboxABI.at('0xe14e14ef93DFE052ade2D958Fd6DC61D4452C5B9')
-    //   return NameboxObj
-    // }
-    // const NameboxContract = NameboxSetup()
-    //
-    // NameboxContract.usernames.call('0x636f6e6e6f720000000000000000000000000000000000000000000000000000', (error, user) => {
-    //   console.log(user);
-    // })
-    //
-    // NameboxContract.registerUsername('0x635f6e6e6f720000000000000000000000000000000000000000000000000000', (error, txHash) => {
-    //   if (error) { throw error }
-    //   waitForMined(txHash, { blockNumber: null },
-    //     function pendingCB () {
-    //       // Signal to the user you're still waiting
-    //       // for a block confirmation
-    //       console.log('waiting for tx to be mined')
-    //     },
-    //     function successCB (data) {
-    //       // Great Success!
-    //       // Likely you'll call some eventPublisherMethod(txHash, data)
-    //       console.log(txHash, data)
-    //     }
-    //   )
-    // })
-    // Callback handler for whether it was mined or not
-  }
     const waitForMined = (txHash, response, pendingCB, successCB) => {
       if (response.blockNumber) {
         successCB()
@@ -179,8 +131,6 @@ class Proposals extends Component {
     const listItems = this.state.proposals.map((proposal, index) =>
     <div>
       <Link to={`/proposal/${index}`}>{proposal.title}</Link> <br />
-      {/*Commits { proposal.details } <br />*/}
-
       <div className="row">
         <div className="col-sm-6">
           send &nbsp;
@@ -236,6 +186,7 @@ class Proposals extends Component {
     <div className="col-sm-3 left-nav">
       <DashboardLeftNav
         ether = { this.state.ether }
+        balance = { this.props.authData.balance }
         token_cost = { this.state.token_cost }
         votes = { this.state.votes }
         commits = { this.state.commits }
@@ -245,6 +196,7 @@ class Proposals extends Component {
     </div>
     <div className="col-sm-9">
       <h2> Proposals </h2>
+      <div className=""><RaisedButton primary={false} label="New Proposal" onClick={()=>{this.makeProposal(index)}}/></div>
         {listItems}
     </div>
   </div>

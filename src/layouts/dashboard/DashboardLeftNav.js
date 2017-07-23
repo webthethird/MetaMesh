@@ -50,7 +50,7 @@ class DashboardLeftNav extends Component {
     //const AuthData = HiddenOnlyAuth(() =>
       <div>
         <div style={{ color: 'white', 'padding-left': '50px' }}> you can currently offer </div>
-        <div style={{ color: 'white', 'padding-left': '100px', 'font-size': '30px' }}> { this.props.ether } </div>
+        <div style={{ color: 'white', 'padding-left': '100px', 'font-size': '30px' }}> { this.props.balance } </div>
         <div style={{ color: 'white', 'padding-left': '30px', 'font-size': '25px' }}> endorsements </div>
         {/*<div> how can I offer more endorsements? <br /><br /></div>*/}
         <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">volunteered</Link><br /><br /> </div>
