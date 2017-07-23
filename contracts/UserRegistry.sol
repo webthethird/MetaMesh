@@ -17,8 +17,9 @@ contract UserRegistry{
         _;
     }
 
-    function UserRegistry(address _proposalRegistry){
+    function UserRegistry(address _proposalRegistry, address firstUser, uint initialUserBalance){
         proposalRegistry = _proposalRegistry;
+        balances[firstUser] = initialUserBalance;
     }
 
     function addBalance(address _to, uint _amount) onlyProposal() returns(bool) {
@@ -39,6 +40,15 @@ contract UserRegistry{
         return false;
     }
 
-
-
+    function transfer(address _to, uint _amount) returns(bool) {
+        if (balances[msg.sender] > _amount &&
+            balances[_to] + _amount > balances[_to]) {
+            balances[msg.sender] -= _amount;
+            balances[_to] += _amount;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
