@@ -213,7 +213,7 @@ class Proposals extends Component {
 
 <div className="container-fluid">
   <div className="row">
-    <div className="col-sm-2 left-nav">
+    <div className="col-sm-3 left-nav">
       <DashboardLeftNav
         ether = { this.state.ether }
         token_cost = { this.state.token_cost }
@@ -223,7 +223,7 @@ class Proposals extends Component {
         name = { this.props.authData.name }
     />
     </div>
-    <div className="col-sm-10">
+    <div className="col-sm-9">
       <h2> Proposals </h2>
         {listItems}
     </div>
