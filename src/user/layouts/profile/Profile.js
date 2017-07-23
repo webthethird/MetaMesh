@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { uport } from './../../../util/connectors.js'
 
 class Profile extends Component {
   constructor(props, { authData }) {
@@ -8,6 +9,9 @@ class Profile extends Component {
 
   render() {
     console.log(this.props.authData);
+    console.log(uport);
+    var address = this.props.authData.address;
+    // var addr = window.uportconnect.MNID.decode(address)
     return(
       <main className="container">
         <div className="pure-g">

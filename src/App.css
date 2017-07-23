@@ -52,6 +52,7 @@ pre {
   display: flex;
   align-items: center;
   flex-grow: 2;
+  text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
   color: lightblue;
   padding-top: 60px;
 }
@@ -109,8 +110,25 @@ pre {
 }
 
 .uport-logo {
-  height: 16px;
+  height: 24px;
   margin: 10px;
+  opacity: 1;
+  display: inline;
+}
+
+.uport-button {
+  opacity: 0.5;
+  text-align: center;
+  margin: 15px;
+  background-color: slategray;
+}
+
+.uport-button:hover {
+  background-color: darkgray;
+}
+
+.uport-button a {
+  color: white;
 }
 
 .left-nav  {
