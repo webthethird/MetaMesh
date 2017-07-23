@@ -6,6 +6,7 @@ import DashboardContainer from '../.././layouts/dashboard/DashboardLeftNav2'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
+import $ from 'jquery';
 
 class Proposals extends Component {
   constructor(props, { authData }) {
@@ -40,6 +41,16 @@ class Proposals extends Component {
   getCommits() {
      return 10
      }
+
+  endorseProposal(id) {
+    var endorsement = $("#endorse_" + id).val();
+    alert(endorsement);
+  }
+
+  donateEther(id) {
+    var eth = $("#donate_" + id).val();
+    alert(eth);
+  }
 
   render() {
     console.log(this.props.authData);
@@ -84,6 +95,8 @@ class Proposals extends Component {
           <TextField
             name="endorse"
             hintText=""
+            id={`endorse_${index}`}
+            name={`endorse_${index}`}
            />
           endorsements
           <div className="progress">
@@ -93,13 +106,15 @@ class Proposals extends Component {
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.endorseProposal(index)}}/></div>
           </div>
         </div>
         <div className="col-sm-6">
           donate &nbsp;
           <TextField
             hintText=""
+            id={`donate_${index}`}
+            name={`donate_${index}`}
            />
           eth
           <div className="progress">
@@ -109,7 +124,7 @@ class Proposals extends Component {
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" /></div>
+            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.donateEther(index)}}/></div>
           </div>
         </div> <br />
       </div>
