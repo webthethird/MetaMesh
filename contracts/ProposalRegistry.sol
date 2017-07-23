@@ -38,14 +38,12 @@ contract ProposalRegistry {
     event fb(uint x);
     function makeProposal(uint _cost, uint _votingTime, uint[] workers) returns(address newProposalAddress){
         uint votesNeeded = UserRegistry(userRegistry).totalSupply() / xOfMembersToAgree;
-        /* fb(votesNeeded); */
-        /* fb(UserRegistry(userRegistry).totalSupply()); */
         Proposal newProposal = new Proposal(nextId,
                                             _cost,
                                             now + _votingTime,
                                             votesNeeded,
                                             workers
-                                            ); //check if id++ work
+                                            );
         nextId++;
         address proposalAddress = address(newProposal);
         proposalExists[proposalAddress] = true;

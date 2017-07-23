@@ -123,8 +123,8 @@ contract Proposal {
     }
 
     function checkReady() internal {
-        if (//this.balance >= cost && //donor money is there?
-            //endorsements >= totalVotesNeeded &&  //project supported by workers?
+        if (this.balance >= cost && //donor money is there?
+            endorsements >= totalVotesNeeded &&  //project supported by workers?
             workforceComplete()) //enoguh people signed up
             {
                 ProposalRegistry(proposalRegistry).notify(address(this),2);
