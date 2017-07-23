@@ -2,7 +2,6 @@ pragma solidity ^0.4.11;
 
 import "./ProposalRegistry.sol";
 import "./UserRegistry.sol";
-import "./Oracle.sol";
 
 /*
   a created Proposal
