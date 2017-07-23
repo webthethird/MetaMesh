@@ -76,6 +76,11 @@ class Proposals extends Component {
       return ProposalRegistryContractObj
     }
     const ProposalRegistryContract = ProposalRegistrySetup()
+    const events = ProposalRegistryContract.allEvents();
+    events.watch(function(error, event){
+      if(!error)
+      console.log('New Event!',event);
+    })
 
     function UserRegistrySetup () {
       let UserRegistryABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"addBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_addr","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_amount","type":"uint256"}],"name":"subtractBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_proposalRegistry","type":"address"},{"name":"firstUser","type":"address"},{"name":"initialUserBalance","type":"uint256"}],"payable":false,"type":"constructor"}])
@@ -96,8 +101,11 @@ class Proposals extends Component {
     }
 
     // TODO listen to event to get proposal address
-    function makeProposal ({//cost, votetime, roles, oracle) {
+    function makeProposal() {//(cost, votetime, roles, oracle) {
       var cost = web3.toWei('1', 'ether');
+      var votetime = 604800;
+      var roles = [12];
+      var oracle = '0xeb5ed4a90bf5723c32f0c3f3966cf99641cde28b';
       ProposalRegistryContract.makeProposal(cost, votetime, roles, oracle, (error, proposal) => {
         if (error) {
           console.log('proposal failed');
@@ -197,7 +205,7 @@ class Proposals extends Component {
     </div>
     <div className="col-sm-9">
       <h2> Proposals </h2>
-      // <div className=""><RaisedButton primary={false} label="New Proposal" onClick={()=>{this.makeProposal(index)}}/></div>
+      <div className=""><RaisedButton primary={false} label="New Proposal" onClick={()=>{makeProposal()}}/></div>
         {listItems}
     </div>
   </div>
