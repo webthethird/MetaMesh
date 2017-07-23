@@ -32,7 +32,7 @@ class Proposals extends Component {
                 funds_needed:  1,
                 goals: 'Goal of project',
                 location: 'Brooklyn',
-                
+
                 },
                 {
                 contract_address: '0xcca1949b0a08aeafdff928ea249f0cad2cc5822c',
@@ -64,13 +64,13 @@ class Proposals extends Component {
     var eth = $("#donate_" + id).val();
     alert(eth);
   }
-    
+
     progress(reached, needed) {
         console.log((reached/needed * 100) + '%');
         return (reached/needed * 100) + '%'
-        
+
     }
-    
+
     getSingleProposal() {
         var index = 0;
         if (this.props.params.index) {
@@ -78,13 +78,13 @@ class Proposals extends Component {
         }
         return [this.state.proposals[index]]
     }
-    
+
     volunteer(id) {
         var endorsement = $("#endorse_" + id).val();
         var task = $("input[name='task']:checked"). val();
         alert(task);
     }
-    
+
 
   render() {
     const mnid = require('mnid')
@@ -156,8 +156,8 @@ class Proposals extends Component {
     UserRegistryContract.balanceOf.call(address, (error, bal) => {
       if (error) { throw error }
       console.log('Token balance:',bal);
-      this.state.balance = bal.toNumber();
-      this.props.authData.balance = bal.toNumber();
+      this.setState({balance: bal.s});
+      this.props.authData.balance = bal.s;
     })
 
     function OracleSetup () {
@@ -230,7 +230,7 @@ class Proposals extends Component {
                                                <div className="progress">
                                                <div className="progress-bar" role="progressbar" style={{ width: this.progress(proposal.endorsements_reached, proposal.endorsements_needed) }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                </div>
-                                               <span style={{ 'padding-left': '70px' }}>{ proposal.endorsements_reached } out of { proposal.endorsements_needed } endorsements reached</span>
+                                               <span style={{ 'padding-left': '70px' }}>{ proposal.endorsements_reached } out of { proposal.endorsements_needed } hours committed</span>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
@@ -248,7 +248,7 @@ class Proposals extends Component {
                                                <div className="progress">
                                                <div className="progress-bar" role="progressbar" style={{ width: this.progress(proposal.funds_donated, proposal.funds_needed) }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                </div>
-                                               <span style={{ 'padding-left': '70px' }}>{ proposal.funds_donated } out of { proposal.funds_needed } ETH has been committed</span>
+                                               <span style={{ 'padding-left': '70px' }}>{ proposal.funds_donated } out of { proposal.funds_needed } ETH contributed</span>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
@@ -272,6 +272,7 @@ class Proposals extends Component {
     <div className="col-sm-3 left-nav">
       <DashboardLeftNav
         ether = { this.state.ether }
+         balance = { this.state.balance }
         token_cost = { this.state.token_cost }
         votes = { this.state.votes }
         commits = { this.state.commits }

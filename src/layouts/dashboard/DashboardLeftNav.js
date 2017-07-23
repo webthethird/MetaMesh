@@ -42,16 +42,16 @@ class DashboardLeftNav extends Component {
     const ImageData = VisibleOnlyAuth(() =>
       <div>
           <img className="logo" width="70px" height="70px" src={this.props.image} alt={'Profile Pic'} />
-          <div style={{ color: 'white', 'padding-left': '10px', 'font-size': '16px', 'vertical-align': 'middle' }}>Logged in as:<br /><strong>{this.props.name}</strong></div>
+          <div style={{ color: 'white', 'padding-left': '10px', 'font-size': '16px', 'vertical-align': 'middle', 'display': 'inline-block' }}>Logged in as:<br /><strong>{this.props.name}</strong></div>
       </div>
     )
 
     const AuthData = VisibleOnlyAuth(() =>
     //const AuthData = HiddenOnlyAuth(() =>
       <div>
-        <div style={{ color: 'white', 'padding-left': '50px' }}> you can currently offer </div>
-        <div style={{ color: 'white', 'padding-left': '100px', 'font-size': '30px' }}> { this.props.ether } </div>
-        <div style={{ color: 'white', 'padding-left': '30px', 'font-size': '25px' }}> endorsements </div>
+        <div style={{ color: 'white', 'padding-left': '50px' }}> you can currently commit to</div>
+        <div style={{ color: 'white', 'padding-left': '100px', 'font-size': '30px' }}> { this.props.balance } </div>
+        <div style={{ color: 'white', 'padding-left': '30px', 'font-size': '25px' }}> volunteers hours </div>
         {/*<div> how can I offer more endorsements? <br /><br /></div>*/}
         <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">volunteered</Link><br /><br /> </div>
         <div style={{ 'padding-left': '80px' }}> <Link to="/" className="btn btn-default">created</Link><br /><br /> </div>
