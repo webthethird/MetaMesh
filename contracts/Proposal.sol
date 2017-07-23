@@ -2,6 +2,7 @@ pragma solidity ^0.4.11;
 
 import "./ProposalRegistry.sol";
 import "./UserRegistry.sol";
+import "./Oracle.sol";
 
 /*
   a created Proposal
@@ -19,8 +20,9 @@ contract Proposal {
     address[] supporters;
     address[] donors;
     bytes32 data;
-    Volunteer[] volunteers;
-    uint totalVotesNeeded;
+    Volunteer[] public volunteers;
+    uint[] public roles;
+    uint public totalVotesNeeded;
    
     enum State {
         Proposed,
@@ -28,20 +30,21 @@ contract Proposal {
         Completed,
         Rejected
     }
-    struct  Volunteer {
+
+    /*
+      code for role and default values:
+      12: buy antenna -> 1 hour, 1 ether
+      13: install antenna: 2 hours, 0 ether
+      14: come along and watch: 1 hours, 0 ether
+    */
+    struct Volunteer {
         address workerAddress;
-        uint role;  //code for role
+        uint role;
         uint time;
         uint reward;
         bool free;
     }
 
-    /*
-      code for role and default values:
-      1: buy antenna -> 1 hour, 1 ether
-      2: install antenna: 2 hours, 0 ether
-      3: come along and watch: 1 hours, 0 ether
-    */
 
     function getBalance() returns(uint){
         return this.balance;
@@ -54,14 +57,29 @@ contract Proposal {
         _;
     }
 
-    /* function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded, uint[] _roles){ */
-    function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded){
+    function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded, uint[] workers){
         proposalRegistry = msg.sender;
         id = _id;
         cost = _cost;
         votingDeadline = _votingDeadline;
-        /* volunteers = _roles; */
         totalVotesNeeded = _votesNeeded;
+        roles = workers;
+        for (uint i=0; i<workers.length; i++){
+            //attention hacky!! number must be 12, 14, or 14!!
+            uint time2work;
+            uint payout = 0;
+            if (workers[i] == 12) { // volunteer buys antenna
+                time2work =1;
+                payout = 10000000000;
+            }
+            if (workers[i] == 13) { // volunteer installs antenna
+                time2work =2;
+            }
+            else { // volunteer is beginner and learns
+                time2work = 1;
+            }
+            volunteers.push(Volunteer(msg.sender, workers[i], time2work, payout, true));
+        }
     }
 
     /*
@@ -81,44 +99,61 @@ contract Proposal {
             votes[msg.sender] += amount;
             //remember votes
             endorsements += amount;
+            // if enough support
+            checkReady();
         }
-        // if enough support
-        checkReady();
     }
 
-    function volunteer(uint role) onlyInStage(State.Proposed) {
-        if (volunteers[role].free && //role is still needed
-            UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, volunteers[role].time)) { //and volunteer can stake
-            volunteers[role].workerAddress = msg.sender;
-            volunteers[role].free = false;
+    function commit(uint role) onlyInStage(State.Proposed) {
+        //whoaaaah hackkky shit!!
+        uint idx = 0;
+        for (uint j=0; j<roles.length;j++){
+            if (roles[j] == role){
+                idx = j;
+            }
+        }
+        if (volunteers[idx].free && //role is still needed
+            UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, volunteers[idx].time))
+            { //and volunteer can stake
+            volunteers[idx].workerAddress = msg.sender;
+            volunteers[idx].free = false;
             ProposalRegistry(proposalRegistry).notify(msg.sender,role);
+            checkReady();
         }
     }
 
     function checkReady() internal {
-        if (this.balance >= cost && //donor money is there?
-            endorsements >= totalVotesNeeded &&  //project supported by workers?
-            workforceCompleteCheck()) //enoguh people signed up
+        if (//this.balance >= cost && //donor money is there?
+            //endorsements >= totalVotesNeeded &&  //project supported by workers?
+            workforceComplete()) //enoguh people signed up
             {
                 ProposalRegistry(proposalRegistry).notify(address(this),2);
                 proposalState = State.InProgress;
         }
     }
 
-    function workforceCompleteCheck() internal returns(bool missing){
-        for (uint i=0; i<volunteers.length; i++){
-            missing = missing && volunteers[i].free;
+    function workforceComplete() returns(bool){
+        for (uint i=0; i<roles.length; i++){
+            if( volunteers[i].free ){
+                return false;
+            }
         }
+        return true;
     }
 
     function fund()
         payable
         onlyBefore(votingDeadline)
-            onlyInStage(State.Proposed) {
+        onlyInStage(State.Proposed) {
         if (funds[msg.sender] == 0) {
             donors.push(msg.sender);
         }
         funds[msg.sender] += msg.value;
+        checkReady();
+    }
+
+    function getTotalFunds() returns(uint){
+        return this.balance;
     }
 
     function withdrawVotes(address supporter){
@@ -135,7 +170,22 @@ contract Proposal {
 
     function reportCompletion() onlyInStage(State.InProgress){
         //how to check whether that is true???
-        refundMeshTokens();
+        /* if (Oracle(oracle).completed()){ */
+        /*     refundMeshTokens(); */
+        /*     for (uint i=0; i<roles.length; i++){ */
+        /*         UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).mint(volunteers[i].workerAddress, */
+        /*                                                                                    volunteers[i].hours); */
+        /*     } */
+        /*     if (volunteers[i].workerAddress.send(volunteers[i].reward)){ */
+        /*         ProposalRegistry(proposalRegistry).notify(volunteers[i].workerAddress, 99); */
+        /*     } */
+        /*     ProposalRegistry(proposalRegistry).notify(volunteers[i].workerAddress, 50); */
+        /*     proposalState = Completed; */
+        /* } */
+        /* else { */
+        /*     //refund donors, burn volunteerStakes, */
+        /*     //refundMeshTokens */
+        /* } */
     }
 
    function refundMeshTokens() internal {

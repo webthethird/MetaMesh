@@ -20,6 +20,7 @@ contract UserRegistry{
     function UserRegistry(address _proposalRegistry, address firstUser, uint initialUserBalance){
         proposalRegistry = _proposalRegistry;
         balances[firstUser] = initialUserBalance;
+        totalSupply = initialUserBalance;
     }
 
     function addBalance(address _to, uint _amount) onlyProposal() returns(bool) {
@@ -49,6 +50,13 @@ contract UserRegistry{
         }
         else {
             return false;
+        }
+    }
+
+    function mint(address _to, uint amount) onlyProposal() {
+        if (balances[_to] + amount > balances[_to]){
+            balances[_to] += amount;
+            totalSupply += amount;
         }
     }
 }
