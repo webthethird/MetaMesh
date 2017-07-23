@@ -36,13 +36,14 @@ contract ProposalRegistry {
         }
     }
     event fb(uint x);
-    function makeProposal(uint _cost, uint _votingTime, uint[] workers) returns(address newProposalAddress){
+    function makeProposal(uint _cost, uint _votingTime, uint[] workers, address _oracle) returns(address newProposalAddress){
         uint votesNeeded = UserRegistry(userRegistry).totalSupply() / xOfMembersToAgree;
         Proposal newProposal = new Proposal(nextId,
                                             _cost,
                                             now + _votingTime,
                                             votesNeeded,
-                                            workers
+                                            workers,
+                                            _oracle
                                             );
         nextId++;
         address proposalAddress = address(newProposal);
@@ -55,4 +56,8 @@ contract ProposalRegistry {
     function notify(address _contract, uint _code){
         Notification(msg.sender, _contract, _code);
     }
+
+/*     function makeArbiterOracle(address[] arbiters){ */
+/*        Oracle   */
+/*     } */
 }

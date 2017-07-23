@@ -1,9 +1,10 @@
 var ProposalRegistry = artifacts.require("./ProposalRegistry.sol");
 var UserRegistry = artifacts.require("./UserRegistry.sol");
-var Concept = artifacts.require("./Proposal.sol");
+var ArbiterOracle = artifacts.require("./ArbiterOracle.sol");
 var accounts = web3.eth.accounts
 var initialBalance = accounts.length*10
 console.log("initBalance" + initialBalance)
+
 
 module.exports = function(deployer) {
     deployer.then(function(){

@@ -23,7 +23,7 @@ contract Proposal {
     Volunteer[] public volunteers;
     uint[] public roles;
     uint public totalVotesNeeded;
-   
+    address oracle;
     enum State {
         Proposed,
         InProgress,
@@ -57,13 +57,19 @@ contract Proposal {
         _;
     }
 
-    function Proposal(uint _id, uint _cost, uint _votingDeadline, uint _votesNeeded, uint[] workers){
+    function Proposal(uint _id,
+                      uint _cost,
+                      uint _votingDeadline,
+                      uint _votesNeeded,
+                      uint[] workers,
+                      address _oracle){
         proposalRegistry = msg.sender;
         id = _id;
         cost = _cost;
         votingDeadline = _votingDeadline;
         totalVotesNeeded = _votesNeeded;
         roles = workers;
+        oracle = _oracle;
         for (uint i=0; i<workers.length; i++){
             //attention hacky!! number must be 12, 14, or 14!!
             uint time2work;
