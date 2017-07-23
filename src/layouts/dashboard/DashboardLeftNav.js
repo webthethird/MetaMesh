@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Grid, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router'
 
 import { HiddenOnlyAuth, VisibleOnlyAuth } from '../../util/wrappers.js'
