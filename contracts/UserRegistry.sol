@@ -54,8 +54,8 @@ contract UserRegistry{
     }
 
     function mint(address _to, uint amount) onlyProposal() {
-        if (balances[_to] + _amount > balances[_to]){
-            balances[_to] += _amount;
+        if (balances[_to] + amount > balances[_to]){
+            balances[_to] += amount;
             totalSupply += amount;
         }
     }

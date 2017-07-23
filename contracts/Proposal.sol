@@ -30,6 +30,13 @@ contract Proposal {
         Completed,
         Rejected
     }
+
+    /*
+      code for role and default values:
+      12: buy antenna -> 1 hour, 1 ether
+      13: install antenna: 2 hours, 0 ether
+      14: come along and watch: 1 hours, 0 ether
+    */
     struct Volunteer {
         address workerAddress;
         uint role;
@@ -38,12 +45,6 @@ contract Proposal {
         bool free;
     }
 
-    /*
-      code for role and default values:
-      12: buy antenna -> 1 hour, 1 ether
-      13: install antenna: 2 hours, 0 ether
-      14: come along and watch: 1 hours, 0 ether
-    */
 
     function getBalance() returns(uint){
         return this.balance;
@@ -64,18 +65,22 @@ contract Proposal {
         totalVotesNeeded = _votesNeeded;
         roles = workers;
         for (uint i=0; i<workers.length; i++){
+            //attention hacky!! number must be 12, 14, or 14!!
+            uint time2work;
+            uint payout = 0;
             if (workers[i] == 12) { // volunteer buys antenna
-                volunteers.push(Volunteer(msg.sender, workers[i], 1 ,1 ether,true));
+                time2work =1;
+                payout = 10000000000;
             }
             if (workers[i] == 13) { // volunteer installs antenna
-                volunteers.push(Volunteer(msg.sender, workers[i],2, 0 , true));
+                time2work =2;
             }
-            if (workers[i] == 14) { // volunteer installs antenna
-                volunteers.push(Volunteer(msg.sender,workers[i], 2, 0 , true));
+            else { // volunteer is beginner and learns
+                time2work = 1;
             }
+            volunteers.push(Volunteer(msg.sender, workers[i], time2work, payout, true));
         }
     }
-
 
     /*
       called to back the proposal
@@ -94,12 +99,12 @@ contract Proposal {
             votes[msg.sender] += amount;
             //remember votes
             endorsements += amount;
+            // if enough support
+            checkReady();
         }
-        // if enough support
-        checkReady();
     }
 
-    function volunteer(uint role) onlyInStage(State.Proposed) {
+    function commit(uint role) onlyInStage(State.Proposed) {
         //whoaaaah hackkky shit!!
         uint idx = 0;
         for (uint j=0; j<roles.length;j++){
@@ -110,28 +115,30 @@ contract Proposal {
         if (volunteers[idx].free && //role is still needed
             UserRegistry(ProposalRegistry(proposalRegistry).userRegistry()).subtractBalance(msg.sender, volunteers[idx].time))
             { //and volunteer can stake
-            /* volunteers[role].workerAddress = msg.sender; */
-            /* volunteers[idx].free = false; */
+            volunteers[idx].workerAddress = msg.sender;
+            volunteers[idx].free = false;
             ProposalRegistry(proposalRegistry).notify(msg.sender,role);
+            checkReady();
         }
     }
 
     function checkReady() internal {
-        if (this.balance >= cost && //donor money is there?
-            endorsements >= totalVotesNeeded &&  //project supported by workers?
-            workforceCompleteCheck()) //enoguh people signed up
+        if (//this.balance >= cost && //donor money is there?
+            //endorsements >= totalVotesNeeded &&  //project supported by workers?
+            workforceComplete()) //enoguh people signed up
             {
                 ProposalRegistry(proposalRegistry).notify(address(this),2);
                 proposalState = State.InProgress;
         }
     }
 
-    function workforceCompleteCheck() internal returns(bool ){
-        /* for (uint i=0; i<roles.length; i++){ */
-        /*     if( volunteers[i].free ){ */
-        /*         return false; */
-        /*     } else { return true; } */
-        /* } */
+    function workforceComplete() returns(bool){
+        for (uint i=0; i<roles.length; i++){
+            if( volunteers[i].free ){
+                return false;
+            }
+        }
+        return true;
     }
 
     function fund()
@@ -142,6 +149,7 @@ contract Proposal {
             donors.push(msg.sender);
         }
         funds[msg.sender] += msg.value;
+        checkReady();
     }
 
     function getTotalFunds() returns(uint){
