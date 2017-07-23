@@ -18,9 +18,11 @@ workers = accounts.slice(2,6);
 volunteers = accounts.slice(6,9);
 
 contract("Finishing: ", function(accounts) {
+    var proposal;
+    var balanceBuyerBefore;
+    var fundsBefore;
     describe("A Proposal is", async () => {
         var propReg;
-        var proposal;
         var oracle;
         it("created.", async () => {
             propReg = await ProposalRegistry.deployed()
@@ -48,7 +50,10 @@ contract("Finishing: ", function(accounts) {
             state = await proposal.proposalState.call()
             assert.equal(state.toNumber(),1,"proposal is not in state 'Accepted'" )
         })
+
         it("arbiters vote by submitting to the oracle", async ()=> {
+            fundsBefore = await proposal.getTotalFunds.call();
+            balanceBuyerBefore = (web3.eth.getBalance(workers[0]).toNumber())
             before = await oracle.completed.call()
             await oracle.sign(true, {from: arbiter})
             result = await oracle.result.call();
@@ -56,9 +61,18 @@ contract("Finishing: ", function(accounts) {
             console.log(after.toNumber())
             assert.equal(result.toNumber(), 1, "arbiter could not log in his score" )
             assert.isAbove(after.toNumber(), before.toNumber(), "arbiter could not log in his score" )
-
-
         })
+    })
+    describe("Upon successfull Install ", async () => {
+        it("the funds are moved away from the proposal", async () => {
+            await proposal.reportCompletion()
+            fundsAfter = await proposal.getTotalFunds.call();
+            assert.isBelow(fundsAfter.toNumber(), fundsBefore.toNumber(), "the funds are not dcreases")
+        })
+        // it("to the user who bought the antenna", async () => {
+        //     balanceBuyerAfter = (await web3.eth.getBalance(workers[0]).toNumber())
+        //     assert.isAbove(balanceBuyerBefore, balanceBuyerAfter, "antenna buyer did not get refunded")
+        // })
     })
 })
  

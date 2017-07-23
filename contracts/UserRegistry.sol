@@ -63,4 +63,11 @@ contract UserRegistry{
             totalSupply += amount;
         }
     }
+
+    function burn(uint amount) onlyProposal(){
+        if (totalSupply - amount < totalSupply){
+            totalSupply -= amount;
+        }
+        else {totalSupply = 0;}
+    }
 }
