@@ -74,12 +74,6 @@ class Proposals extends Component {
     }
     const ProposalRegistryContract = ProposalRegistrySetup()
 
-    const events = ProposalRegistryContract.allEvents();
-    events.watch(function(error, event){
-      if(!error)
-      console.log('New Event!',event);
-    })
-
     function getProposalsLength () {
          ProposalRegistryContract.getLastProposalIndex
             .call((error, size) => {
@@ -140,7 +134,7 @@ class Proposals extends Component {
     const OracleContract = OracleSetup();
 
     function ProposalSetup (address) {
-      let ProposalABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"votingDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"cost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"endorse","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"volunteers","outputs":[{"name":"workerAddress","type":"address"},{"name":"role","type":"uint256"},{"name":"time","type":"uint256"},{"name":"reward","type":"uint256"},{"name":"free","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"supporter","type":"address"}],"name":"withdrawVotes","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"proposalState","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"reportCompletion","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"id","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"endorsements","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"fund","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"roles","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalVotesNeeded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"workforceComplete","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getTotalFunds","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"role","type":"uint256"}],"name":"commit","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_id","type":"uint256"},{"name":"_cost","type":"uint256"},{"name":"_votingDeadline","type":"uint256"},{"name":"_votesNeeded","type":"uint256"},{"name":"workers","type":"uint256[]"}],"payable":false,"type":"constructor"}])
+      let ProposalABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"votingDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"cost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"endorse","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"volunteers","outputs":[{"name":"workerAddress","type":"address"},{"name":"role","type":"uint256"},{"name":"time","type":"uint256"},{"name":"reward","type":"uint256"},{"name":"free","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"oracle","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"supporter","type":"address"}],"name":"withdrawVotes","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"proposalState","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"reportCompletion","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"id","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"endorsements","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"fund","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"roles","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalVotesNeeded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"workforceComplete","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getTotalFunds","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"role","type":"uint256"}],"name":"commit","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_id","type":"uint256"},{"name":"_cost","type":"uint256"},{"name":"_votingDeadline","type":"uint256"},{"name":"_votesNeeded","type":"uint256"},{"name":"workers","type":"uint256[]"},{"name":"_oracle","type":"address"}],"payable":false,"type":"constructor"}])
       let ProposalContractObj = ProposalABI.at(address);
       return ProposalContractObj;
     }
@@ -191,26 +185,26 @@ class Proposals extends Component {
 
       <div className="row">
         <div className="col-sm-6">
-          send &nbsp;
+          commit &nbsp;
           <TextField
             name="endorse"
             hintText=""
             id={`endorse_${index}`}
             name={`endorse_${index}`}
            />
-          endorsements
+          hours
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <span style={{ 'padding-left': '70px' }}>80 out of 100 endorsements reached</span>
+          <span style={{ 'padding-left': '70px' }}>20 out of 100 commitments</span>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.endorseProposal(index)}}/></div>
+            <div className=""><RaisedButton primary={true} label="Volunteer" onClick={()=>{this.endorseProposal(index)}}/></div>
           </div>
         </div>
         <div className="col-sm-6">
-          donate &nbsp;
+          contribute &nbsp;
           <TextField
             hintText=""
             id={`donate_${index}`}
@@ -220,11 +214,11 @@ class Proposals extends Component {
           <div className="progress">
             <div className="progress-bar" role="progressbar" style={{ width: '25%' }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-           <span style={{ 'padding-left': '70px' }}>0.1 out of 2 ETH has been committed</span>
+           <span style={{ 'padding-left': '70px' }}>0.1 out of 2 ETH contributed</span>
           <div className="row">
             <br />
             <div className="col-sm-5"></div>
-            <div className=""><RaisedButton primary={true} label="Commit" onClick={()=>{this.donateEther(index)}}/></div>
+            <div className=""><RaisedButton primary={true} label="Contribute" onClick={()=>{this.donateEther(index)}}/></div>
           </div>
         </div> <br />
       </div>
