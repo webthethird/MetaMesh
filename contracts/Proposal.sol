@@ -22,7 +22,7 @@ contract Proposal {
     Volunteer[] public volunteers;
     uint[] public roles;
     uint public totalVotesNeeded;
-    address oracle;
+    address public oracle;
     enum State {
         Proposed,
         InProgress,
