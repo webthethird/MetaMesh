@@ -82,6 +82,26 @@ class Proposals extends Component {
       console.log('New Event!',event);
     })
 
+    function getProposalsLength () {
+         ProposalRegistryContract.getLastProposalIndex
+            .call((error, size) => {
+                var proposalNum = size.toNumber()
+                return proposalNum
+            })
+    }
+
+    function getProposalAddresses() {
+        var propAddr = []
+        for (var i=0; i<getProposalsLength(); i++){
+            ProposalRegistryContract.proposals.call(i, (error, _addr) => {
+                propAddr.push(_addr)
+            })
+        }
+        return propAddr
+    }
+    var proposals = getProposalAddresses()
+    console.log(proposals);
+
     function UserRegistrySetup () {
       let UserRegistryABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"addBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"amount","type":"uint256"}],"name":"mint","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_addr","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_amount","type":"uint256"}],"name":"subtractBalance","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_proposalRegistry","type":"address"},{"name":"firstUser","type":"address"},{"name":"initialUserBalance","type":"uint256"}],"payable":false,"type":"constructor"}])
       let UserRegistryContractObj = UserRegistryABI.at('0x7e1b666b229f68748e6d78e782b679c1d246e53c')
@@ -96,8 +116,10 @@ class Proposals extends Component {
       this.props.authData.balance = bal.c[0];
     })
 
-    function showProposalModal () {
-
+    function ProposalSetup (address) {
+      let ProposalABI = web3.eth.contract([{"constant":true,"inputs":[],"name":"votingDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"cost","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"amount","type":"uint256"}],"name":"endorse","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"volunteers","outputs":[{"name":"workerAddress","type":"address"},{"name":"role","type":"uint256"},{"name":"time","type":"uint256"},{"name":"reward","type":"uint256"},{"name":"free","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"supporter","type":"address"}],"name":"withdrawVotes","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"proposalState","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"reportCompletion","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"id","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"endorsements","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"fund","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"roles","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalVotesNeeded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"workforceComplete","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"getTotalFunds","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"role","type":"uint256"}],"name":"commit","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_id","type":"uint256"},{"name":"_cost","type":"uint256"},{"name":"_votingDeadline","type":"uint256"},{"name":"_votesNeeded","type":"uint256"},{"name":"workers","type":"uint256[]"}],"payable":false,"type":"constructor"}])
+      let ProposalContractObj = ProposalABI.at(address);
+      return ProposalContractObj;
     }
 
     // TODO listen to event to get proposal address

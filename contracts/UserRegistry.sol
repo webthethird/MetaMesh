@@ -23,6 +23,10 @@ contract UserRegistry{
         totalSupply = initialUserBalance;
     }
 
+    function balanceOf(address who) constant returns(uint){
+        return balances[who];
+    }
+
     function addBalance(address _to, uint _amount) onlyProposal() returns(bool) {
         if (balances[_to] + _amount > balances[_to]){
             balances[_to] += _amount;
@@ -58,5 +62,12 @@ contract UserRegistry{
             balances[_to] += amount;
             totalSupply += amount;
         }
+    }
+
+    function burn(uint amount) onlyProposal(){
+        if (totalSupply - amount < totalSupply){
+            totalSupply -= amount;
+        }
+        else {totalSupply = 0;}
     }
 }

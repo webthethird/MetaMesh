@@ -1,6 +1,7 @@
 var ProposalRegistry = artifacts.require("ProposalRegistry.sol");
 var UserRegistry = artifacts.require("UserRegistry.sol");
 var Proposal = artifacts.require("Proposal.sol");
+var ArbiterOracle = artifacts.require("ArbiterOracle.sol");
 
 utils = require("../js/utils.js")
 
@@ -12,9 +13,11 @@ contract("ProposalRegistry", function(accounts) {
     describe("ProposalRegistry", async () => {
         var propReg;
         var proposal;
+        var oracle;
         it("should create a Proposal", async () => {
             propReg = await ProposalRegistry.deployed()
-            receiptFromMakeProposal = await propReg.makeProposal(cost, votingTime,roles)
+            oracle = await ArbiterOracle.deployed()
+            receiptFromMakeProposal = await propReg.makeProposal(cost, votingTime,roles,oracle.address)
             proposalAddress = utils.getProposalAddress(receiptFromMakeProposal)
             proposal = await Proposal.at(proposalAddress)
             // console.log(proposalAddress)
